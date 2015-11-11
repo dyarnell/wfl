@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+<!-- Custom styles for this template -->
+<link href="{% static "cover.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">WFL</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li class="active"><a href="#">Home</a></li>
+                  <li><a href="{% url "gauntlet.views.index" %}"><i class="fa fa-gamepad"></i> Gauntlet</a></li>
+                  <li><a href="{% url 'admin:index' %}"><i class="fa fa-wrench"></i> Admin</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <h1 class="cover-heading">Wood Foot League</h1>
+            <p class="lead">Casual Competitive Community Game and Sports League</p>
+          </div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>123 Fake St.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+{% endblock %}

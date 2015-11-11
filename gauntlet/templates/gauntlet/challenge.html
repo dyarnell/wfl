@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block body %}
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url 'main_index' %}">
+        WFL
+      </a>
+      <a class="navbar-brand" href="{% url "gauntlet.views.index" %}">
+        <i class="fa fa-gamepad fa-inverse"></i> Gauntlet
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>Challenge <small>{{ challenge }}</small></h1>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="list-group">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Results</h3>
+          </div>
+          {% for result in results %}
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">{{ result.entrant }}
+              <small>(Age: {{ result.entrant.age }})</small>
+              </h4>
+              <p class="list-group-item-text">{{ result.points }}</p>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
