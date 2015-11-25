@@ -6,7 +6,7 @@ import sys
 ## GETTING-STARTED: make sure the next line points to your settings.py:
 os.environ['DJANGO_SETTINGS_MODULE'] = 'wfl.settings'
 ## GETTING-STARTED: make sure the next line points to your django project dir:
-sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'wsgi', 'wfl'))
+sys.path.append(os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'wfl'))
 from distutils.sysconfig import get_python_lib
 os.environ['PYTHON_EGG_CACHE'] = get_python_lib()
 
