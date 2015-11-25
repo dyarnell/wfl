@@ -1,2 +1,7 @@
-*.pyc
-db.sqlite3
+*.py[co]
+*.sw[po]
+*.bak
+*.orig
+*~
+.project
+.pydevproject
