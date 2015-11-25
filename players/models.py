@@ -12,7 +12,7 @@ class Player(models.Model):
 
     def __unicode__(self):
         if self.user.first_name and self.user.last_name:
-            return '%s %s' % (self.user.first_name, self.user.last_name)
+            return '%s %s.' % (self.user.first_name, self.user.last_name[0])
         else:
             return self.user
 
