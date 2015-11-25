@@ -25,7 +25,8 @@ SECRET_KEY = 'vj_*b==1^s_p=m3&w=c45j4$%56otf5c214(y26l4j1c86quyl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+from socket import gethostname
+ALLOWED_HOSTS = [os.environ.get('OPENSHIFT_APP_DNS'), gethostname()]
 
 
 # Application definition
@@ -102,7 +103,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
