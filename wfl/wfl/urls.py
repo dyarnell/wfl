@@ -26,4 +26,6 @@ urlpatterns = [
         {'template_name': 'login.html'}),
     url(r'^accounts/logout/', 'django.contrib.auth.views.logout',
         {'template_name': 'logout.html'}),
+    url(r'^accounts/profile/$',
+        TemplateView.as_view(template_name='index.html')),
 ]
