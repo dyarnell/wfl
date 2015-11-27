@@ -22,4 +22,8 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', TemplateView.as_view(template_name='index.html'),
         name='main_index'),
+    url(r'^accounts/login/', 'django.contrib.auth.views.login',
+        {'template_name': 'login.html'}),
+    url(r'^accounts/logout/', 'django.contrib.auth.views.logout',
+        {'template_name': 'logout.html'}),
 ]

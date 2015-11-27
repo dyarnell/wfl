@@ -1,0 +1,52 @@
+{% extends "navigation.html" %}
+{% load widget_tweaks %}
+
+{% block title %}WFL Login{% endblock %}
+{% block container %}
+<h2>Login</h2>
+<p>Please enter your WFL username and password.  Then click "Login" to continue.</p>
+<form method="POST" class="login" action="{% url "django.contrib.auth.views.login" %}">
+    {% csrf_token %}
+    {% if form.username.errors or form.non_field_errors %}
+    <div class="form-group has-error" >
+    {% else %}
+    <div class="form-group">
+    {% endif %}
+        {{ form.username.label_tag }}
+        {{ form.username|add_class:"form-control" }}
+        {% if form.username.errors %}
+            <p class="text-danger">
+            {% for error in form.username.errors %}
+                {{ error|escape }}
+            {% endfor %}
+            </p>
+        {% endif %}
+    </div>
+    {% if form.password.errors or form.non_field_errors %}
+    <div class="form-group has-error" >
+    {% else %}
+    {% endif %}
+    <div class="form-group">
+        {{ form.password.label_tag }}
+        {{ form.password|add_class:"form-control" }}
+        {% if form.password.errors %}
+            <p class="text-danger">
+            {% for error in form.password.errors %}
+                {{ error|escape }}
+            {% endfor %}
+            </p>
+        {% endif %}
+    </div>
+    {% if form.non_field_errors %}
+    <p class="text-danger">
+        {% for error in form.non_field_errors %}
+            {{ error|escape }}
+        {% endfor %}
+    </p>
+    {% endif %}
+    <div class="ui-widget">
+        <input type="submit" class="btn btn-primary" value="Login">
+        <input type="hidden" name="next" value="{{ next }}">
+    </div>
+</form>
+{% endblock %}

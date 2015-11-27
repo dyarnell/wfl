@@ -1,20 +1,5 @@
-{% extends "base.html" %}
-
-{% block body %}
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="{% url 'main_index' %}">
-        WFL
-      </a>
-      <a class="navbar-brand" href="{% url "gauntlet.views.index" %}">
-        <i class="fa fa-gamepad fa-inverse"></i> Gauntlet
-      </a>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
+{% extends "navigation.html" %}
+{% block container %}
   <h1>Challenge <small>{{ challenge }}</small></h1>
   <div class="row">
     <div class="col-md-4">
