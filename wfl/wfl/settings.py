@@ -14,13 +14,17 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ON_PAAS = 'OPENSHIFT_REPO_DIR' in os.environ
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'vj_*b==1^s_p=m3&w=c45j4$%56otf5c214(y26l4j1c86quyl'
+if ON_PAAS:
+    SECRET_KEY = os.environ['OPENSHIFT_SECRET_TOKEN']
+else:
+    SECRET_KEY = 'vj_*b==1^s_p=m3&w=c45j4$%56otf5c214(y26l4j1c86quyl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,14 +81,26 @@ WSGI_APPLICATION = 'wfl.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
+if ON_PAAS:
+    # determine if we are on MySQL or POSTGRESQL
+    if "OPENSHIFT_POSTGRESQL_DB_USERNAME" in os.environ:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME':     os.environ['OPENSHIFT_APP_NAME'],
+                'USER':     os.environ['OPENSHIFT_POSTGRESQL_DB_USERNAME'],
+                'PASSWORD': os.environ['OPENSHIFT_POSTGRESQL_DB_PASSWORD'],
+                'HOST':     os.environ['OPENSHIFT_POSTGRESQL_DB_HOST'],
+                'PORT':     os.environ['OPENSHIFT_POSTGRESQL_DB_PORT'],
+            }
+        }
+    else:
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
+        }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
