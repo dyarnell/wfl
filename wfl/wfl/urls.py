@@ -19,6 +19,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^gauntlet/', include('gauntlet.urls')),
+    url(r'^players/', include('players.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', TemplateView.as_view(template_name='index.html'),
         name='main_index'),

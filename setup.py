@@ -19,6 +19,7 @@ setup(
     install_requires=[
         'Django==1.8.4',
         'django-widget-tweaks==1.3',
+        'django-bootstrap3>=6.2.2',
     ],
     dependency_links=[
         'https://pypi.python.org/simple/django/'

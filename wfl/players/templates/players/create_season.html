@@ -1,0 +1,22 @@
+{% extends "navigation.html" %}
+{% load bootstrap3 %}
+{% load widget_tweaks %}
+
+{% block container %}
+<div class="row">
+  <div class="col-md-4">
+    <h2>Create a new Season</h2>
+  </div>
+  <div class="col-md-6">
+    <form class="form-horizontal" name="searchform" action="." method="post" id="searchform">
+      {% csrf_token %}
+      {% bootstrap_form season_form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary">
+          {% bootstrap_icon "user" %} Create Season
+        </button>
+      {% endbuttons %}
+    </form>
+  </div>
+</div>
+{% endblock %}

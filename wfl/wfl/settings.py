@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'bootstrap3',
     'gauntlet',
     'players',
 )
@@ -94,13 +95,13 @@ if ON_PAAS:
                 'PORT':     os.environ['OPENSHIFT_POSTGRESQL_DB_PORT'],
             }
         }
-    else:
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-            }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -121,3 +122,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../wsgi', 'static')
+
+# Email
+if ON_PAAS:
+    EMAIL_HOST = os.environ['SENDGRID_HOSTNAME']
+    EMAIL_HOST_USER = os.environ['SENDGRID_PASSWORD']
+    EMAIL_HOST_PASSWORD = os.environ['SENDGRID_USERNAME']
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True

@@ -1,8 +1,19 @@
 {% extends "base.html" %}
+{% load bootstrap3 %}
+
 {% block body %}
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1"
+                aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <a class="navbar-brand" href="{% url 'main_index' %}">
           WFL
         </a>
@@ -10,25 +21,40 @@
           <i class="fa fa-gamepad fa-inverse"></i> Gauntlet
         </a>
       </div>
-      <ul class="nav navbar-nav navbar-right">
-      {% if user.username %}
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                Signed in as {{ user.username }}
-                <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="{% url 'django.contrib.auth.views.logout' %}">Logout</a></li>
-              </ul>
-          </li>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+        {% if user.username %}
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                 role="button" aria-haspopup="true" aria-expanded="false">
+                  Signed in as {{ user.username }}
+                  <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  {% if user.is_staff %}
+                    <li><a href="{% url 'players.views.register' %}">
+                        <i class="fa fa-user-plus"></i> Register User</a>
+                    </li>
+                    <li><a href="{% url 'players.views.create_season' %}">
+                        <i class="fa fa-calendar"></i> Create Season</a>
+                    </li>
+                  {% endif %}
+                  <li><a href="{% url 'django.contrib.auth.views.logout' %}">
+                      <i class="fa fa-sign-out"></i> Logout</a>
+                  </li>
+                </ul>
+            </li>
+          </ul>
+        {% else %}
+            <li><a href="{% url 'django.contrib.auth.views.login' %}">
+                  <i class="fa fa-sign-in"></i> Login</a></li>
+        {% endif %}
         </ul>
-      {% else %}
-          <li><a href="{% url 'django.contrib.auth.views.login' %}">Login</a></li>
-      {% endif %}
-      </ul>
+      </div>
     </div>
   </nav>
 
   <div class="container">
+    {% bootstrap_messages %}
     {% block container %}
     {% endblock %}
   </div>

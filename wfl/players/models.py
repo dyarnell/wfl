@@ -31,7 +31,7 @@ class Season(models.Model):
     )
     season = models.IntegerField(choices=SEASONS)
     year = models.DateField()
-    players = models.ManyToManyField(Player)
+    players = models.ManyToManyField(Player, blank=True)
 
     def __unicode__(self):
         return '%s %d' % (self.season_title, self.year.year)
