@@ -31,10 +31,10 @@
                   <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   {% if user.is_staff %}
-                    <li><a href="{% url 'players.views.register' %}">
+                    <li><a href="{% url 'season.views.register' %}">
                         <i class="fa fa-user-plus"></i> Register User</a>
                     </li>
-                    <li><a href="{% url 'players.views.create_season' %}">
+                    <li><a href="{% url 'season.views.create_season' %}">
                         <i class="fa fa-calendar"></i> Create Season</a>
                     </li>
                   {% endif %}

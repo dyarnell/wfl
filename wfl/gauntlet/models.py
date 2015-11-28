@@ -1,5 +1,5 @@
 from django.db import models
-from players.models import Player, Week
+from season.models import Player, Week
 import math
 
 

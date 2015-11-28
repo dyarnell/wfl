@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
 from .models import Challenge
-from players.models import Result, Player
+from season.models import Result, Player
 
 
 @login_required()

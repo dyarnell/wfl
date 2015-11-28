@@ -3,8 +3,8 @@ from django.template import RequestContext, loader
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from players.models import Week
-from players.forms import UserForm, PlayerForm, SeasonForm
+from .models import Week
+from .forms import UserForm, PlayerForm, SeasonForm
 
 
 @login_required()
@@ -27,7 +27,7 @@ def register(request):
         user_form = UserForm()
     ctx['player_form'] = player_form
     ctx['user_form'] = user_form
-    template = loader.get_template('players/register.html')
+    template = loader.get_template('season/register.html')
     context = RequestContext(request, ctx)
     return HttpResponse(template.render(context))
 
@@ -48,6 +48,6 @@ def create_season(request):
     else:
         season_form = SeasonForm()
     ctx['season_form'] = season_form
-    template = loader.get_template('players/create_season.html')
+    template = loader.get_template('season/create_season.html')
     context = RequestContext(request, ctx)
     return HttpResponse(template.render(context))

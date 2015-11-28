@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'bootstrap3',
     'gauntlet',
-    'players',
+    'season',
 )
 
 MIDDLEWARE_CLASSES = (
