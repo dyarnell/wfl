@@ -5,11 +5,17 @@
 {% block container %}
 <div class="row">
   <div class="col-md-4">
-    <h2>Register a new Player for the WFL</h2>
+    <h2>WFL Players</h2>
     <p>Username will be your game alias.  Kids without email addresses should
        get their parrents permission for their email address.  We will send
        updates about the upcoming weeks events.
     </p>
+    <ul class="list-group">
+      {% for player in players %}
+        <li class="list-group-item">{{player}}
+          <small class="pull-right">Age: {{player.age}}</small></li>
+      {% endfor %}
+    </ul>
   </div>
   <div class="col-md-6">
     <form class="form-horizontal" name="searchform" action="." method="post" id="searchform">

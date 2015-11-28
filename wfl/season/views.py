@@ -3,13 +3,14 @@ from django.template import RequestContext, loader
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .models import Week
+from .models import Season, Week, Player
 from .forms import UserForm, PlayerForm, SeasonForm
 
 
 @login_required()
-def register(request):
+def players(request):
     ctx = {}
+    ctx['players'] = Player.objects.all()
     if request.method == 'POST':
         player_form = PlayerForm(request.POST)
         user_form = UserForm(request.POST)
@@ -27,14 +28,15 @@ def register(request):
         user_form = UserForm()
     ctx['player_form'] = player_form
     ctx['user_form'] = user_form
-    template = loader.get_template('season/register.html')
+    template = loader.get_template('season/players.html')
     context = RequestContext(request, ctx)
     return HttpResponse(template.render(context))
 
 
 @login_required()
-def create_season(request):
+def list(request):
     ctx = {}
+    ctx['seasons'] = Season.objects.all()
     if request.method == 'POST':
         season_form = SeasonForm(request.POST)
         if season_form.is_valid():
@@ -48,6 +50,6 @@ def create_season(request):
     else:
         season_form = SeasonForm()
     ctx['season_form'] = season_form
-    template = loader.get_template('season/create_season.html')
+    template = loader.get_template('season/seasons.html')
     context = RequestContext(request, ctx)
     return HttpResponse(template.render(context))

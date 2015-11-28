@@ -31,11 +31,14 @@
                   <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                   {% if user.is_staff %}
-                    <li><a href="{% url 'season.views.register' %}">
-                        <i class="fa fa-user-plus"></i> Register User</a>
+                    <li><a href="{% url 'season.views.players' %}">
+                        <i class="fa fa-users"></i> Players</a>
                     </li>
-                    <li><a href="{% url 'season.views.create_season' %}">
-                        <i class="fa fa-calendar"></i> Create Season</a>
+                    <li><a href="{% url 'season.views.list' %}">
+                        <i class="fa fa-calendar"></i> Seasons</a>
+                    </li>
+                    <li><a href="{% url 'admin:index' %}">
+                        <i class="fa fa-wrench"></i> Admin</a>
                     </li>
                   {% endif %}
                   <li><a href="{% url 'django.contrib.auth.views.logout' %}">

@@ -3,11 +3,19 @@
 {% load widget_tweaks %}
 
 {% block container %}
+<h2>Seasons</h2>
 <div class="row">
   <div class="col-md-4">
-    <h2>Create a new Season</h2>
+    <ul class="list-group">
+      {% for season in seasons %}
+        <li class="list-group-item">{{season}}
+          <small class="pull-right">{{season.week_set.all|length}} Weeks</small></li>
+      {% endfor %}
+    </ul>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-1">
+  </div>
+  <div class="col-md-5">
     <form class="form-horizontal" name="searchform" action="." method="post" id="searchform">
       {% csrf_token %}
       {% bootstrap_form season_form %}
