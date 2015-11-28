@@ -16,6 +16,7 @@ class Migration(migrations.Migration):
             name='Player',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('birthday', models.DateField()),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -23,25 +24,36 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='Result',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('points', models.IntegerField()),
+                ('entrant', models.ForeignKey(to='players.Player')),
+            ],
+            options={
+                'verbose_name_plural': 'Results',
+            },
+        ),
+        migrations.CreateModel(
             name='Season',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('season', models.CharField(max_length=6, choices=[(b'winter', b'Winter'), (b'spring', b'Spring'), (b'summer', b'Summer'), (b'fall', b'Fall')])),
+                ('season', models.IntegerField(choices=[(0, b'Spring'), (1, b'Summer'), (2, b'Fall'), (3, b'Winter')])),
                 ('year', models.DateField()),
                 ('players', models.ManyToManyField(to='players.Player')),
             ],
         ),
         migrations.CreateModel(
-            name='Standings',
+            name='Week',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('points', models.IntegerField()),
-                ('player', models.ForeignKey(to='players.Player')),
+                ('week', models.IntegerField()),
+                ('season', models.ForeignKey(to='players.Season')),
             ],
         ),
         migrations.AddField(
-            model_name='season',
-            name='standings',
-            field=models.ForeignKey(to='players.Standings'),
+            model_name='result',
+            name='week',
+            field=models.ForeignKey(to='players.Week'),
         ),
     ]
