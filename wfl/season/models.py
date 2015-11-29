@@ -29,6 +29,7 @@ class Season(models.Model):
         (2, 'Fall'),
         (3, 'Winter'),
     )
+
     season = models.IntegerField(choices=SEASONS)
     year = models.DateField()
     players = models.ManyToManyField(Player, blank=True)
@@ -50,6 +51,11 @@ class Season(models.Model):
 class Week(models.Model):
     season = models.ForeignKey(Season)
     week = models.IntegerField()
+    kickoff = models.DateTimeField(blank=True, null=True)
+    duration = models.DurationField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('season', 'week')
 
     def __unicode__(self):
         return '%s - Week %d' % (self.season, self.week)
@@ -68,6 +74,7 @@ class Result(models.Model):
 
     class Meta:
         verbose_name_plural = 'Results'
+        unique_together = ('entrant', 'week')
 
     def __unicode__(self):
         return '%s %s' % (self.entrant, self.week)

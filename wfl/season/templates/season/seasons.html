@@ -8,23 +8,32 @@
   <div class="col-md-4">
     <ul class="list-group">
       {% for season in seasons %}
-        <li class="list-group-item">{{season}}
-          <small class="pull-right">{{season.week_set.all|length}} Weeks</small></li>
+        <a href="{% url 'season.views.season' season_id=season.id %}" class="list-group-item">{{season}}
+          <small class="pull-right">{{season.week_set.all|length}} Weeks</small></a>
       {% endfor %}
     </ul>
   </div>
   <div class="col-md-1">
   </div>
+  {% if user.is_staff %}
   <div class="col-md-5">
-    <form class="form-horizontal" name="searchform" action="." method="post" id="searchform">
-      {% csrf_token %}
-      {% bootstrap_form season_form %}
-      {% buttons %}
-        <button type="submit" class="btn btn-primary">
-          {% bootstrap_icon "user" %} Create Season
-        </button>
-      {% endbuttons %}
-    </form>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Players</h3>
+      </div>
+      <div class="panel-body">
+      <form name="seasonform" action="." method="post" id="seasonform">
+          {% csrf_token %}
+          {% bootstrap_form season_form %}
+          {% buttons %}
+            <button type="submit" class="btn btn-primary">
+              {% bootstrap_icon "user" %} Create Season
+            </button>
+          {% endbuttons %}
+        </form>
+      </div>
+    </div>
   </div>
+  {% endif %}
 </div>
 {% endblock %}

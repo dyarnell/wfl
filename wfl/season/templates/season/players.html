@@ -17,17 +17,22 @@
       {% endfor %}
     </ul>
   </div>
-  <div class="col-md-6">
-    <form class="form-horizontal" name="searchform" action="." method="post" id="searchform">
-      {% csrf_token %}
-      {% bootstrap_form user_form show_help=False %}
-      {% bootstrap_form player_form %}
-      {% buttons %}
-        <button type="submit" class="btn btn-primary">
-          {% bootstrap_icon "user" %} Register User
-        </button>
-      {% endbuttons %}
-    </form>
+  <div class="col-md-1"></div>
+  <div class="col-md-5">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form name="searchform" action="." method="post" id="searchform">
+          {% csrf_token %}
+          {% bootstrap_form user_form show_help=False %}
+          {% bootstrap_form player_form %}
+          {% buttons %}
+            <button type="submit" class="btn btn-primary">
+              {% bootstrap_icon "user" %} Register User
+            </button>
+          {% endbuttons %}
+        </form>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

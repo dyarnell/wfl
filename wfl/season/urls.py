@@ -4,5 +4,9 @@ from . import views
 
 urlpatterns = [
     url(r'^players/$', views.players, name='players'),
-    url(r'^list/$', views.list, name='list')
+    url(r'^$', views.list, name='list'),
+    url(r'^(?P<season_id>[0-9]+)/$', views.season),
+    url(r'^(?P<season_id>[0-9]+)/week/(?P<week_id>[0-9]+?)/$', views.week),
+    url(r'^[0-9]/week/(?P<week_id>[0-9]+?)/result/$',
+        views.result),
 ]

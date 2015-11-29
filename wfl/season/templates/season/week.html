@@ -1,0 +1,90 @@
+{% extends "navigation.html" %}
+{% load bootstrap3 %}
+{% load widget_tweaks %}
+
+{% block head %}
+{{ week_form.media }}
+{% endblock %}
+
+{% block container %}
+<h2>{{ week }}</h2>
+<div class="row">
+  <div class="col-md-4">
+    {% if week.challenge %}
+    <div class="panel panel-default">
+      <div class="panel-body">
+        {{ week.challenge.game }}
+      </div>
+    </div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Results
+          {% if user.is_staff %}
+          <button type="button" class="pull-right btn btn-default btn-xs"
+                  data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-flag-checkered"></i> Add
+          </button>
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Add Result for {{ week }}</h4>
+                </div>
+                <form name="form"
+                      action="{% url 'season.views.result' week_id=week.id %}?next={% url 'season.views.week' season_id=week.season.id week_id=week.id %}"
+                      method="post" id="form">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                      {% bootstrap_form result_form %}
+                  </div>
+                  <div class="modal-footer">
+                    {% buttons %}
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">
+                        {% bootstrap_icon "user" %} Add Result
+                      </button>
+                    {% endbuttons %}
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </h3>
+      </div>
+      <ul class="list-group">
+      {% for result in results %}
+        <li class="list-group-item">{{ result.entrant }}
+            <span class="badge">{{result.points }}</span>
+        </li>
+      {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-1">
+  </div>
+  {% if user.is_staff %}
+  <div class="col-md-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Week</h3>
+      </div>
+      <div class="panel-body">
+        <form name="form" action="." method="post" id="form">
+          {% csrf_token %}
+          {% bootstrap_form week_form %}
+          {% buttons %}
+            <button type="submit" class="btn btn-primary">
+               <i class="fa fa-calendar"></i> Update Week
+            </button>
+          {% endbuttons %}
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

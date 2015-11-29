@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'widget_tweaks',
     'bootstrap3',
+    'bootstrap3_datetime',
     'gauntlet',
     'season',
 )

@@ -1,10 +1,12 @@
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.template import RequestContext, loader
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .models import Season, Week, Player
-from .forms import UserForm, PlayerForm, SeasonForm
+from .models import Season, Week, Player, Result
+from .forms import UserForm, PlayerForm, SeasonForm, WeekForm, ResultForm, \
+    SeasonPlayerForm
 
 
 @login_required()
@@ -53,3 +55,59 @@ def list(request):
     template = loader.get_template('season/seasons.html')
     context = RequestContext(request, ctx)
     return HttpResponse(template.render(context))
+
+
+def season(request, season_id):
+    ctx = {}
+    ctx['season'] = Season.objects.get(pk=season_id)
+    ctx['weeks'] = Week.objects.filter(season=season_id)
+    ctx['sp_form'] = SeasonPlayerForm(instance=ctx['season'])
+    if request.method == 'POST':
+        sp_form = SeasonPlayerForm(request.POST, instance=ctx['season'])
+        if sp_form.is_valid():
+            sp_form.save()
+            messages.success(request, 'Updated %s' % ctx['season'])
+            ctx['sp_form'] = SeasonPlayerForm(instance=ctx['season'])
+    template = loader.get_template('season/season.html')
+    context = RequestContext(request, ctx)
+    return HttpResponse(template.render(context))
+
+
+def week(request, season_id, week_id):
+    ctx = {}
+    week = Week.objects.get(pk=week_id)
+    if request.method == 'POST':
+        week_form = WeekForm(request.POST)
+        if week_form.is_valid():
+            update_week = week_form.save(commit=False)
+            week.season = update_week.season
+            week.duration = update_week.duration
+            week.kickoff = update_week.kickoff
+            week.save()
+            messages.success(request, 'Updated %s' % week)
+            week_form = WeekForm(instance=Week.objects.get(pk=week_id))
+    else:
+        week_form = WeekForm(instance=week)
+    ctx['result_form'] = ResultForm()
+    ctx['week_form'] = week_form
+    ctx['week'] = week
+    ctx['results'] = Result.objects.filter(week=week_id)
+    template = loader.get_template('season/week.html')
+    context = RequestContext(request, ctx)
+    return HttpResponse(template.render(context))
+
+
+def result(request, week_id):
+    week = Week.objects.get(pk=week_id)
+    if request.method == 'POST':
+        result_form = ResultForm(request.POST)
+        if result_form.is_valid():
+            result = result_form.save(commit=False)
+            result.week = week
+            try:
+                result.save()
+                messages.success(request, 'Added result %s for Week %s.' %
+                                 (result, week))
+            except:
+                messages.error(request, 'Unable to add result.')
+            return redirect(request.GET['next'])

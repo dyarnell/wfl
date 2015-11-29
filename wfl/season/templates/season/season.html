@@ -1,0 +1,67 @@
+{% extends "navigation.html" %}
+{% load bootstrap3 %}
+{% load widget_tweaks %}
+
+{% block container %}
+<h2>{{ season }}</h2>
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Players
+          {% if user.is_staff %}
+          <button type="button" class="pull-right btn btn-default btn-xs"
+                  data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-users"></i> Add
+          </button>
+          <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Players for {{ season }}</h4>
+                </div>
+                <form name="form"
+                      action="."
+                      method="post" id="form">
+                  {% csrf_token %}
+                  <div class="modal-body">
+                      {% bootstrap_form sp_form %}
+                  </div>
+                  <div class="modal-footer">
+                    {% buttons %}
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary">
+                        {% bootstrap_icon "user" %} Modify Players
+                      </button>
+                    {% endbuttons %}
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </h3>
+      </div>
+      <ul class="list-group">
+        {% for player in season.players.all %}
+          <li class="list-group-item"> {{ player }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Weeks</h3>
+      </div>
+      <ul class="list-group">
+        {% for week in weeks %}
+          <a href="{% url 'season.views.week' season_id=season.id week_id=week.id %}" class="list-group-item">{{ week }}</a>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
