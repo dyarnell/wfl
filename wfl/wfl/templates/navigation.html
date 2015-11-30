@@ -17,10 +17,15 @@
         <a class="navbar-brand" href="{% url 'main_index' %}">
           WFL
         </a>
-        <a class="navbar-brand" href="{% url "gauntlet.views.index" %}">
-          <i class="fa fa-gamepad fa-inverse"></i> Gauntlet
-        </a>
       </div>
+      <ul class="nav navbar-nav">
+        <li><a href="{% url 'gauntlet.views.index' %}">
+          <i class="fa fa-gamepad fa-inverse"></i> Gauntlet</a>
+        </li>
+        <li><a href="{% url 'season.views.list' %}">
+            <i class="fa fa-calendar fa-inverse"></i> Seasons</a>
+        </li>
+      </ul>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
         {% if user.username %}
@@ -33,9 +38,6 @@
                   {% if user.is_staff %}
                     <li><a href="{% url 'season.views.players' %}">
                         <i class="fa fa-users"></i> Players</a>
-                    </li>
-                    <li><a href="{% url 'season.views.list' %}">
-                        <i class="fa fa-calendar"></i> Seasons</a>
                     </li>
                     <li><a href="{% url 'admin:index' %}">
                         <i class="fa fa-wrench"></i> Admin</a>
