@@ -1,6 +1,9 @@
 {% extends "navigation.html" %}
 {% block container %}
   <h1>Challenge <small>{{ challenge }}</small></h1>
+  {% if challenge.week.kickoff %}
+  <h3>{{challenge.week.kickoff}}</h3>
+  {% endif %}
   <div class="row">
     <div class="col-md-4">
       <div class="list-group">
