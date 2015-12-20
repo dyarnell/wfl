@@ -15,8 +15,18 @@
   </div>
   <div class="col-md-1">
   </div>
-  {% if user.is_staff %}
   <div class="col-md-5">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Rules</h3>
+      </div>
+      <ul class="list-group">
+          {% for rule in rules %}
+            <li class="list-group-item">{{ rule }}</li>
+          {% endfor %}
+      </ul>
+    </div>
+  {% if user.is_staff %}
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">Players</h3>
@@ -33,7 +43,7 @@
         </form>
       </div>
     </div>
-  </div>
   {% endif %}
+  </div>
 </div>
 {% endblock %}

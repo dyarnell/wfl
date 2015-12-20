@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Season, Week, Player, Result
 from .forms import UserForm, PlayerForm, SeasonForm, WeekForm, ResultForm, \
     SeasonPlayerForm
+from .notify import rules_list
 
 
 @login_required()
@@ -38,6 +39,7 @@ def players(request):
 def list(request):
     ctx = {}
     ctx['seasons'] = Season.objects.all()
+    ctx['rules'] = rules_list
     if request.method == 'POST':
         season_form = SeasonForm(request.POST)
         if season_form.is_valid():
