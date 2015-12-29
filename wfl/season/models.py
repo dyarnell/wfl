@@ -77,6 +77,8 @@ class Week(models.Model):
         if not self.notified:
             send_mail(subject, message, email_from, email_to,
                       fail_silently=False)
+            self.notified = True
+            self.save()
 
 
 class Result(models.Model):
