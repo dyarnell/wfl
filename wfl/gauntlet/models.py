@@ -45,6 +45,8 @@ class Challenge(models.Model):
                                     settings.WFL_URL)
             self.week.send_mail(email, settings.WFL_ADMIN,
                                 message + email_post)
+        self.week.notified = True
+        self.week.save()
 
 
 class BracketMatch(models.Model):
