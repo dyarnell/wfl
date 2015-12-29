@@ -1,6 +1,8 @@
 from django.db import models
 from season.models import Player, Week
+from django.conf import settings
 import math
+from season.notify import email_week, email_post
 
 
 def largest_power(i, power=2):
@@ -31,6 +33,18 @@ class Challenge(models.Model):
 
     def __lt__(self, other):
         return self.week < other.week
+
+    def send_mail(self):
+        emails = set(map(lambda x: x.user.email, Player.objects.all()))
+        for email in emails:
+            players = map(lambda x: str(x),
+                          Player.objects.filter(user__email=email))
+            date_string = self.week.kickoff.strftime('%B %d, %Y at %I:%M %p')
+            message = email_week % (self.week.week, self.week.season,
+                                    date_string, ', '.join(players),
+                                    settings.WFL_URL)
+            self.week.send_mail(email, settings.WFL_ADMIN,
+                                message + email_post)
 
 
 class BracketMatch(models.Model):

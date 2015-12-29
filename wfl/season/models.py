@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 import datetime
 
 
@@ -53,6 +54,7 @@ class Week(models.Model):
     week = models.IntegerField()
     kickoff = models.DateTimeField(blank=True, null=True)
     duration = models.DurationField(blank=True, null=True)
+    notified = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ('season', 'week')
@@ -65,6 +67,16 @@ class Week(models.Model):
             return self.week < other.week
         else:
             return self.season < other.season
+
+    def send_mail(self, email_to, email_from, message, subject=None):
+        if subject is None:
+            subject = 'Wood Foot League Week %d Season %s' % \
+                (self.week, self.season)
+        if type(email_to) is not list:
+            email_to = [email_to]
+        if not self.notified:
+            send_mail(subject, message, email_from, email_to,
+                      fail_silently=False)
 
 
 class Result(models.Model):

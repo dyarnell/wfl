@@ -125,9 +125,14 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '../wsgi', 'static')
 
 # Email
-if ON_PAAS:
-    EMAIL_HOST = os.environ['SENDGRID_HOSTNAME']
-    EMAIL_HOST_USER = os.environ['SENDGRID_PASSWORD']
-    EMAIL_HOST_PASSWORD = os.environ['SENDGRID_USERNAME']
-    EMAIL_PORT = 587
-    EMAIL_USE_TLS = True
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ['WFL_GMAIL_USERNAME']
+EMAIL_HOST_PASSWORD = os.environ['WFL_GMAIL_PASSWORD']
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+
+WFL_URL = 'https://wfl-yarnell.rhcloud.com'
+WFL_ADMIN = 'woodfootleague@gmail.com'
