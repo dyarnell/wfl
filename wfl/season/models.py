@@ -35,6 +35,9 @@ class Season(models.Model):
     year = models.DateField()
     players = models.ManyToManyField(Player, blank=True)
 
+    class Meta:
+        ordering = ['-season']
+
     def __unicode__(self):
         return '%s %d' % (self.season_title, self.year.year)
 

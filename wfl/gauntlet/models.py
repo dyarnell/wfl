@@ -28,6 +28,9 @@ class Challenge(models.Model):
     lineup_set = models.DateTimeField(blank=True, null=True)
     participants = models.ManyToManyField(Player, blank=True)
 
+    class Meta:
+        order_with_respect_to = 'week'
+
     def __unicode__(self):
         return '%s (%s)' % (self.game, self.week)
 
