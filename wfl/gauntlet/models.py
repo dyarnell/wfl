@@ -29,7 +29,7 @@ class Challenge(models.Model):
     participants = models.ManyToManyField(Player, blank=True)
 
     class Meta:
-        order_with_respect_to = 'week'
+        ordering = ['week']
 
     def __unicode__(self):
         return '%s (%s)' % (self.game, self.week)
