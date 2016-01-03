@@ -60,7 +60,7 @@ class Week(models.Model):
     notified = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['-week']
+        ordering = ['week']
         unique_together = ('season', 'week')
 
     def __unicode__(self):
