@@ -1,4 +1,6 @@
 {% extends "navigation.html" %}
+{% load gauntlet_tags %}
+
 {% block container %}
   <h1>Challenge <small>{{ challenge }}</small></h1>
   {% if challenge.week.kickoff %}
@@ -38,5 +40,29 @@
       </div>
     </div>
   </div>
-</div>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Randomize Players
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Random Players</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="list-group">
+             {% for p in challenge.participants|shuffle_participants %}
+             <li class="list-group-item">{{ p }}</li>
+             {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}
