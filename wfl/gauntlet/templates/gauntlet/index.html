@@ -10,7 +10,8 @@
           </div>
           <div class="list-group">
           {% for challenge in challenges %}
-            <a href="{% url 'gauntlet.views.challenge' challenge=challenge.id %}" class="list-group-item">
+            <a href="{% url 'gauntlet.views.challenge' challenge=challenge.id %}"
+               class="list-group-item {% if challenge.week.has_passed %}list-group-item-warning{% endif %}">
               <h4 class="list-group-item-heading">{{ challenge.game.name }} -
               <small>{{ challenge.game.level }}</small>
               </h4>

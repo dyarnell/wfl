@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 import datetime
+from django.utils import timezone
 
 
 class Player(models.Model):
@@ -71,6 +72,10 @@ class Week(models.Model):
             return self.week < other.week
         else:
             return self.season < other.season
+
+    @property
+    def has_passed(self):
+        return (self.kickoff + self.duration) < timezone.now()
 
     def send_mail(self, email_to, email_from, message, subject=None):
         if subject is None:
