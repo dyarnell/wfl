@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^(?P<season_id>[0-9]+)/week/(?P<week_id>[0-9]+?)/$', views.week),
     url(r'^[0-9]/week/(?P<week_id>[0-9]+?)/result/$',
         views.result),
+    url(r'^sendmail/$', views.sendmail, name='sendmail'),
 ]

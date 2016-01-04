@@ -2,6 +2,7 @@ from django.db import models
 from season.models import Player, Week
 from django.conf import settings
 import math
+import pytz
 from season.notify import email_week, email_post
 
 
@@ -42,10 +43,12 @@ class Challenge(models.Model):
         for email in emails:
             players = map(lambda x: str(x),
                           Player.objects.filter(user__email=email))
-            date_string = self.week.kickoff.strftime('%B %d, %Y at %I:%M %p')
+            local_dt = self.week.kickoff.replace(tzinfo=pytz.utc)
+            local_dt = local_dt.astimezone(pytz.timezone("America/New_York"))
+            date_string = local_dt.strftime('%B %d, %Y at %I:%M %p %Z')
             message = email_week % (self.week.week, self.week.season,
                                     date_string, ', '.join(players),
-                                    settings.WFL_URL)
+                                    settings.WFL_URL + '/gauntlet/')
             self.week.send_mail(email, settings.WFL_ADMIN,
                                 message + email_post)
         self.week.notified = True

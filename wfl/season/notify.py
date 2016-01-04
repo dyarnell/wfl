@@ -10,7 +10,8 @@ You can find out more about the current standings, rules, and upcoming weeks at
 email_post = '''
 ----
 The Wood Foot League (WFL) is a casually competitive game and sports league for
-kids in the Dickinson neighborhood.'''
+kids in the Dickinson neighborhood.  Please contact woodfootleague@gmail.com
+with any questions.'''
 
 
 rules_list = [

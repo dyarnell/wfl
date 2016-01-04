@@ -1,0 +1,16 @@
+{% extends "navigation.html" %}
+{% load bootstrap3 %}
+{% load widget_tweaks %}
+
+{% block container %}
+<h2>Sendmail</h2>
+<form name="searchform" action="." method="post" id="searchform">
+  {% csrf_token %}
+  {% bootstrap_form email_form show_help=False %}
+  {% buttons %}
+    <button type="submit" class="btn btn-primary">
+      {% bootstrap_icon "envelope" %} Email
+    </button>
+  {% endbuttons %}
+</form>
+{% endblock %}

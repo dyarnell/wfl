@@ -43,3 +43,8 @@ class ResultForm(forms.ModelForm):
     class Meta:
         model = Result
         fields = ['entrant', 'points']
+
+
+class EmailForm(forms.Form):
+    subject = forms.CharField()
+    body = forms.CharField(widget=forms.Textarea)

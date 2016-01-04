@@ -3,10 +3,12 @@ from django.shortcuts import redirect
 from django.template import RequestContext, loader
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.core.mail import send_mail
 
 from .models import Season, Week, Player, Result
 from .forms import UserForm, PlayerForm, SeasonForm, WeekForm, ResultForm, \
-    SeasonPlayerForm
+    SeasonPlayerForm, EmailForm
 from .notify import rules_list
 
 
@@ -112,3 +114,21 @@ def result(request, week_id):
             except:
                 messages.error(request, 'Unable to add result.')
             return redirect(request.GET['next'])
+
+
+def sendmail(request):
+    ctx = {}
+    if request.method == 'POST':
+        email_form = EmailForm(request.POST)
+        if email_form.is_valid():
+            subject = email_form.cleaned_data['subject']
+            body = email_form.cleaned_data['body']
+            send_mail(subject, body, settings.WFL_ADMIN,
+                      ['derek@umiacs.umd.edu'], fail_silently=False)
+            email_form = EmailForm()
+    else:
+        email_form = EmailForm()
+    ctx['email_form'] = email_form
+    template = loader.get_template('season/sendmail.html')
+    context = RequestContext(request, ctx)
+    return HttpResponse(template.render(context))
