@@ -12,6 +12,7 @@ def index(request):
         points = map(lambda x: x.points,
                      Result.objects.filter(entrant_id=player.id))
         standings.append((player, sum(points)))
+        standings.sort(key=lambda x: x[1], reverse=True)
     template = loader.get_template('gauntlet/index.html')
     context = RequestContext(request, {
         'challenges': challenges,
