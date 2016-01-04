@@ -21,6 +21,7 @@ setup(
         'django-widget-tweaks==1.3',
         'django-bootstrap3-datetimepicker==2.2.3',
         'django-bootstrap3>=6.2.2',
+	'pytz==2015.7',
     ],
     dependency_links=[
         'https://pypi.python.org/simple/django/'
