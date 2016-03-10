@@ -11,7 +11,7 @@ email.short_description = 'Email'
 
 class ChallengeAdmin(admin.ModelAdmin):
     list_display = ['game', 'week', 'lineup_set']
-    ordering = ['game']
+    ordering = ['week']
     actions = [email]
 
 admin.site.register(VideoGame)
