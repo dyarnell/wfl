@@ -17,7 +17,7 @@ setup(
     url='http://www.python.org/sigs/distutils-sig/',
     # GETTING-STARTED: define required django version:
     install_requires=[
-        'Django==1.8.4',
+        'Django==1.8.11',
         'django-widget-tweaks==1.3',
         'django-bootstrap3-datetimepicker==2.2.3',
         'django-bootstrap3>=6.2.2',
