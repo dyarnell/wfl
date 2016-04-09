@@ -45,7 +45,9 @@ def list(request):
     if request.method == 'POST':
         season_form = SeasonForm(request.POST)
         if season_form.is_valid():
-            season = season_form.save()
+            season = season_form.save(commit=False)
+            season.notified = False
+            season.save()
             for x in range(season_form.cleaned_data['weeks']):
                 week = Week.objects.create(season=season, week=x+1)
                 week.save()
