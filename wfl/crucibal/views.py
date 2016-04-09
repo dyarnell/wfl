@@ -1,17 +1,17 @@
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.contrib.auth.decorators import login_required
-from .models import Challenge
+from .models import Contest
 from season.models import Result, Player, Season
 
 
 def index(request):
     seasons = []
     for season in Season.objects.all():
-        challenges = Challenge.objects.filter(week__season=season)
-        if len(challenges) > 0:
+        contests = Contest.objects.filter(week__season=season)
+        if len(contests) > 0:
             seasons.append(season)
-    template = loader.get_template('gauntlet/index.html')
+    template = loader.get_template('crucibal/index.html')
     context = RequestContext(request, {
         'seasons': seasons,
     })
@@ -20,7 +20,7 @@ def index(request):
 
 def season(request, season_id):
     season = Season.objects.get(id=season_id)
-    challenges = Challenge.objects.filter(week__season=season)
+    contests = Contest.objects.filter(week__season=season)
     standings = []
     for player in Player.objects.all():
         results = Result.objects.filter(entrant_id=player.id)
@@ -28,21 +28,21 @@ def season(request, season_id):
         points = map(lambda x: x.points, results)
         standings.append((player, sum(points)))
         standings.sort(key=lambda x: x[1], reverse=True)
-    template = loader.get_template('gauntlet/season.html')
+    template = loader.get_template('crucibal/season.html')
     context = RequestContext(request, {
         'season': season,
-        'challenges': challenges,
+        'contests': contests,
         'standings': standings,
     })
     return HttpResponse(template.render(context))
 
 
-def challenge(request, challenge):
-    challenge_obj = Challenge.objects.get(id=challenge)
-    results = Result.objects.filter(week_id=challenge_obj.week.id)
-    template = loader.get_template('gauntlet/challenge.html')
+def contest(request, contest_id):
+    contest_obj = Contest.objects.get(id=contest_id)
+    results = Result.objects.filter(week_id=contest_obj.week.id)
+    template = loader.get_template('crucibal/contest.html')
     context = RequestContext(request, {
-        'challenge': challenge_obj,
+        'contest': contest_obj,
         'results': results.order_by('-points'),
     })
     return HttpResponse(template.render(context))

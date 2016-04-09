@@ -1,0 +1,40 @@
+{% extends "navigation.html" %}
+
+{% block container %}
+  <h1>{{ season }} {% if season.completed %} <i class="fa fa-check pull-right"></i>{% endif %}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Contests</h3>
+          </div>
+          <div class="list-group">
+          {% for contest in contests %}
+            <a href="{% url 'crucibal.views.contest' contest_id=contest.id %}"
+               class="list-group-item {% if contest.week.has_passed %}list-group-item-warning{% endif %}">
+              <h4 class="list-group-item-heading">{{ contest.game.name }}</h4>
+              <p class="list-group-item-text">{{ contest.week }}</p>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Standings</h3>
+          </div>
+          <ul class="list-group">
+          {% for player, points in standings %}
+            <li class="list-group-item">
+              <span class="badge">{{points}}</span>
+              {{ player }}
+            </li>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

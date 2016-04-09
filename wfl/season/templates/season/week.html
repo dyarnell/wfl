@@ -26,12 +26,18 @@
             <i class="fa fa-flag-checkered"></i> Add
           </button>
           <!-- Modal -->
-          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal fade" id="myModal" tabindex="-1"
+               role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" id="myModalLabel">Add Result for {{ week }}</h4>
+                  <button type="button" class="close" data-dismiss="modal"
+                          aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title" id="myModalLabel">
+                    Add Result for {{ week }}
+                  </h4>
                 </div>
                 <form name="form"
                       action="{% url 'season.views.result' week_id=week.id %}?next={% url 'season.views.week' season_id=week.season.id week_id=week.id %}"
@@ -42,7 +48,8 @@
                   </div>
                   <div class="modal-footer">
                     {% buttons %}
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-default"
+                              data-dismiss="modal">Close</button>
                       <button type="submit" class="btn btn-primary">
                         {% bootstrap_icon "user" %} Add Result
                       </button>
@@ -70,7 +77,54 @@
   <div class="col-md-5">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Week</h3>
+        <h3 class="panel-title">Actions</h3>
+      </div>
+      <div class="panel-body">
+        <button type="button" class="btn btn-default"
+                data-toggle="modal" data-target="#emailModal">
+          <i class="fa fa-inbox"></i> Email
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="emailModal" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                  Email for {{ week }}
+                </h4>
+              </div>
+              <form name="form"
+                    action="{% url 'season.views.email' week_id=week.id %}?next={% url 'season.views.week' season_id=week.season.id week_id=week.id %}"
+                    method="post" id="form">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% bootstrap_form email_form %}
+                </div>
+                <div class="modal-footer">
+                  {% buttons %}
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">
+                      {% bootstrap_icon "email" %} Email
+                    </button>
+                  {% endbuttons %}
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Update Week</h3>
       </div>
       <div class="panel-body">
         <form name="form" action="." method="post" id="form">

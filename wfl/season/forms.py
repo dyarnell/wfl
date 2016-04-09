@@ -33,9 +33,9 @@ class SeasonPlayerForm(forms.ModelForm):
 class WeekForm(forms.ModelForm):
     class Meta:
         model = Week
-        fields = ['season', 'kickoff', 'duration']
+        fields = ['season', 'kickoff', 'duration', 'notified']
         widgets = {
-            'kickoff': DateTimePicker(options={"format": "YYYY-MM-DD"}),
+            'kickoff': DateTimePicker(options={"format": "YYYY-MM-DD HH:mm"}),
         }
 
 
@@ -43,6 +43,10 @@ class ResultForm(forms.ModelForm):
     class Meta:
         model = Result
         fields = ['entrant', 'points']
+
+
+class WeekEmailForm(forms.Form):
+    body = forms.CharField(widget=forms.Textarea, required=False)
 
 
 class EmailForm(forms.Form):

@@ -1,10 +1,10 @@
 {% extends "navigation.html" %}
 
 {% block container %}
-<h1>Video Game Gauntlet</h1>
+<h1>Playground Crucibal</h1>
 <div class="list-group">
   {% for season in seasons %}
-  <a href="{% url 'gauntlet.views.season' season_id=season.id %}"
+  <a href="{% url 'crucibal.views.season' season_id=season.id %}"
      class="list-group-item {% if season.completed %}list-group-item-warning{% else %}list-group-item-info{% endif %}">
     {{ season }}
   </a>

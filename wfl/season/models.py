@@ -1,8 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.conf import settings
 import datetime
+import pytz
+import textwrap
 from django.utils import timezone
+from season.notify import email_week, email_post
 
 
 class Player(models.Model):
@@ -23,6 +27,16 @@ class Player(models.Model):
         now = datetime.datetime.now().date()
         return (now - self.birthday).days / 365
 
+    @staticmethod
+    def emails(players=None):
+        if players is None:
+            email_set = set(map(lambda x: x.user.email, Player.objects.all()))
+        else:
+            email_set = set(map(lambda x: x.user.email, players))
+        if None in email_set:
+            email_set.remove(None)
+        return email_set
+
 
 class Season(models.Model):
     SEASONS = (
@@ -35,6 +49,7 @@ class Season(models.Model):
     season = models.IntegerField(choices=SEASONS)
     year = models.DateField()
     players = models.ManyToManyField(Player, blank=True)
+    completed = models.BooleanField()
 
     class Meta:
         ordering = ['-season']
@@ -77,7 +92,7 @@ class Week(models.Model):
     def has_passed(self):
         return (self.kickoff + self.duration) < timezone.now()
 
-    def send_mail(self, email_to, email_from, message, subject=None):
+    def _send_mail(self, email_to, email_from, message, subject=None):
         if subject is None:
             subject = 'Wood Foot League Week %d Season %s' % \
                 (self.week, self.season)
@@ -86,6 +101,23 @@ class Week(models.Model):
         if not self.notified:
             send_mail(subject, message, email_from, email_to,
                       fail_silently=False)
+
+    def send_mail(self, email_post):
+        for email in Player.emails(self.season.players.all()):
+            players = map(lambda x: str(x),
+                          self.season.players.filter(user__email=email))
+            local_dt = self.kickoff.replace(tzinfo=pytz.utc)
+            local_dt = local_dt.astimezone(pytz.timezone("America/New_York"))
+            date_string = local_dt.strftime('%B %d, %Y at %I:%M %p %Z')
+            message = email_week % (self.week, self.season,
+                                    date_string, ', '.join(players),
+                                    settings.WFL_URL)
+            self._send_mail(
+                email, settings.WFL_ADMIN,
+                message + '\n' + '\n'.join(textwrap.wrap(email_post, 79))
+            )
+        self.notified = True
+        self.save()
 
 
 class Result(models.Model):

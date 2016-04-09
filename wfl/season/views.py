@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 
 from .models import Season, Week, Player, Result
 from .forms import UserForm, PlayerForm, SeasonForm, WeekForm, ResultForm, \
-    SeasonPlayerForm, EmailForm
+    SeasonPlayerForm, EmailForm, WeekEmailForm
 from .notify import rules_list
 
 
@@ -40,7 +40,7 @@ def players(request):
 
 def list(request):
     ctx = {}
-    ctx['seasons'] = Season.objects.all()
+    ctx['seasons'] = Season.objects.order_by('-year')
     ctx['rules'] = rules_list
     if request.method == 'POST':
         season_form = SeasonForm(request.POST)
@@ -86,12 +86,14 @@ def week(request, season_id, week_id):
             week.season = update_week.season
             week.duration = update_week.duration
             week.kickoff = update_week.kickoff
+            week.notified = update_week.notified
             week.save()
             messages.success(request, 'Updated %s' % week)
             week_form = WeekForm(instance=Week.objects.get(pk=week_id))
     else:
         week_form = WeekForm(instance=week)
     ctx['result_form'] = ResultForm()
+    ctx['email_form'] = WeekEmailForm()
     ctx['week_form'] = week_form
     ctx['week'] = week
     ctx['results'] = Result.objects.filter(week=week_id)
@@ -113,6 +115,19 @@ def result(request, week_id):
                                  (result, week))
             except:
                 messages.error(request, 'Unable to add result.')
+            return redirect(request.GET['next'])
+
+
+def email(request, week_id):
+    week = Week.objects.get(pk=week_id)
+    if request.method == 'POST':
+        email_form = WeekEmailForm(request.POST)
+        if email_form.is_valid():
+            #try:
+            week.send_mail(email_form.cleaned_data['body'])
+            #    messages.success(request, 'Emailed for Week %s' % week)
+            #except:
+            #    messages.error(request, 'Failed to email Week %s' % week)
             return redirect(request.GET['next'])
 
 
