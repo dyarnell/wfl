@@ -38,6 +38,13 @@ class Player(models.Model):
         return email_set
 
 
+class Location(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Season(models.Model):
     SEASONS = (
         (0, 'Spring'),
@@ -74,6 +81,7 @@ class Week(models.Model):
     kickoff = models.DateTimeField(blank=True, null=True)
     duration = models.DurationField(blank=True, null=True)
     notified = models.BooleanField(default=False)
+    location = models.ForeignKey(Location)
 
     class Meta:
         ordering = ['week']
@@ -111,6 +119,7 @@ class Week(models.Model):
             date_string = local_dt.strftime('%B %d, %Y at %I:%M %p %Z')
             message = email_week % (self.week, self.season,
                                     date_string, ', '.join(players),
+                                    self.location,
                                     settings.WFL_URL)
             self._send_mail(
                 email, settings.WFL_ADMIN,

@@ -9,7 +9,7 @@
       </a>
       Week {{ contest.week.week }}
   {% if contest.week.kickoff %}
-  <small>{{contest.week.kickoff}}</small>
+  <small>{{contest.week.kickoff}} @ {{contest.week.location}}</small>
   {% endif %}
   </h3>
   <div class="row">
@@ -30,6 +30,7 @@
         </div>
       </div>
     </div>
+    <!--
     <div class="col-md-4">
       <div class="list-group">
         <div class="panel panel-default">
@@ -46,6 +47,7 @@
       </div>
     </div>
   </div>
+  -->
 
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
@@ -70,5 +72,6 @@
       </div>
     </div>
   </div>
+
 
 {% endblock %}

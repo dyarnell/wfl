@@ -1,4 +1,4 @@
-email_week = '''Week %s for %s is scheduled for %s.
+email_week = '''Week %s for %s is scheduled for %s at %s.
 
 You can let us know if %s can attend by replying to this message or talking to
 the WFL organizers.
