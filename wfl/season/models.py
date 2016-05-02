@@ -118,9 +118,8 @@ class Week(models.Model):
             local_dt = local_dt.astimezone(pytz.timezone("America/New_York"))
             date_string = local_dt.strftime('%B %d, %Y at %I:%M %p %Z')
             message = email_week % (self.week, self.season,
-                                    date_string, ', '.join(players),
-                                    self.location,
-                                    settings.WFL_URL)
+                                    date_string, self.location,
+                                    ', '.join(players), settings.WFL_URL)
             self._send_mail(
                 email, settings.WFL_ADMIN,
                 message + '\n' + '\n'.join(textwrap.wrap(email_post, 79))
